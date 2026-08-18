@@ -19,9 +19,11 @@ const greetings = [
   "Welcome!",
   "Hey, What’s Going On!",
   "Great to See You!",
-  "Hey There, Friend!",
+  "Hey There, My Wuzza!",
   "Ready to Check In?",
   "How’s Everything?",
+  "Buzz!!",
+  "My Wuzza!",
   "Hope You’re Doing Great!"
 ];
 
