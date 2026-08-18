@@ -86,7 +86,7 @@ export default function EmojiSlider({ value, onChange }: EmojiSliderProps) {
   const percentage = ((Math.max(MIN, Math.min(MAX, rawValue)) - MIN) / (MAX - MIN)) * 100;
 
   return (
-    <div className="w-full max-w-md px-6 select-none">
+    <div className="w-full max-w-md select-none mt-6 bg-white/50 rounded-2xl p-5 shadow-2xl border border-gray-200">
       {/* Emoji */}
       <div className="flex flex-col items-center drop-shadow-2xl">
         <div className="text-[9rem] leading-none mb-3 drop-shadow-xl rounded-full" style={{}}>

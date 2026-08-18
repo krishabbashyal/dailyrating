@@ -30,9 +30,9 @@ const greetings = [
   const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
 
   return (
-    <div className="text-center mt-24">
+    <div className="text-left mt-6 ">
       <h1 className="text-3xl font-black text-brand-primary">{randomGreeting}</h1>
-      <div className="text-center  mt-0.5 mb-4">
+      <div className="text-left  mt-0.5 mb-4">
         <p className="text font-medium text-gray-500">How has today been?</p>
       </div>
     </div>
