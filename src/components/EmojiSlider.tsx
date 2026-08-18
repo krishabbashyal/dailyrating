@@ -9,19 +9,27 @@ interface EmojiSliderProps {
   onChange?: (rating: number) => void;
 }
 
-export default function EmojiSlider({ value, onChange }: EmojiSliderProps) {
-  const [rawValue, setRawValue] = useState<number>(value ?? 5);
+export default function EmojiSlider({
+  value,
+  onChange,
+}: EmojiSliderProps) {
+  const [rawValue, setRawValue] = useState(value ?? 5);
   const [dragging, setDragging] = useState(false);
 
   const trackRef = useRef<HTMLDivElement>(null);
-  const prevRatingRef = useRef<number>(Math.trunc(value ?? 5));
+  const previousRating = useRef(Math.trunc(value ?? 5));
 
-  const rating = Math.max(MIN, Math.min(MAX, Math.trunc(rawValue)));
+  const rating = Math.max(MIN, Math.min(MAX, Math.round(rawValue)));
 
-  // Only report changes when the whole-number rating changes.
   useEffect(() => {
-    if (rating !== prevRatingRef.current) {
-      prevRatingRef.current = rating;
+    if (value !== undefined) {
+      setRawValue(value);
+    }
+  }, [value]);
+
+  useEffect(() => {
+    if (rating !== previousRating.current) {
+      previousRating.current = rating;
       onChange?.(rating);
     }
   }, [rating, onChange]);
@@ -31,11 +39,12 @@ export default function EmojiSlider({ value, onChange }: EmojiSliderProps) {
     if (!track) return;
 
     const rect = track.getBoundingClientRect();
-    const ratio = (clientX - rect.left) / rect.width;
-    const clamped = Math.min(1, Math.max(0, ratio));
+    const ratio = Math.max(
+      0,
+      Math.min(1, (clientX - rect.left) / rect.width)
+    );
 
-    const next = clamped * (MAX - MIN) + MIN;
-    setRawValue(next);
+    setRawValue(MIN + ratio * (MAX - MIN));
   }, []);
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -45,8 +54,9 @@ export default function EmojiSlider({ value, onChange }: EmojiSliderProps) {
   };
 
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!dragging) return;
-    updateFromClientX(e.clientX);
+    if (dragging) {
+      updateFromClientX(e.clientX);
+    }
   };
 
   const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -59,36 +69,75 @@ export default function EmojiSlider({ value, onChange }: EmojiSliderProps) {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "ArrowRight" || e.key === "ArrowUp") {
+      e.preventDefault();
       setRawValue(Math.min(MAX, rating + 1));
-    } else if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
+    }
+
+    if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
+      e.preventDefault();
       setRawValue(Math.max(MIN, rating - 1));
+    }
+
+    if (e.key === "Home") {
+      e.preventDefault();
+      setRawValue(MIN);
+    }
+
+    if (e.key === "End") {
+      e.preventDefault();
+      setRawValue(MAX);
     }
   };
 
-  // Continuous thumb position.
-  const thumbPercent = ((Math.min(MAX, Math.max(MIN, rawValue)) - MIN) / (MAX - MIN)) * 100;
+  const percentage =
+    ((Math.max(MIN, Math.min(MAX, rawValue)) - MIN) / (MAX - MIN)) * 100;
 
   return (
-    <div className="mt-8 mx-6 max-w-md select-none">
+    <div className="w-full max-w-md px-6 select-none">
+      {/* Header */}
+      <div className="text-center mb-6">
+        <p className="text-sm font-medium text-gray-500">
+          How was your day?
+        </p>
+      </div>
+
       {/* Emoji */}
-      <div className="flex items-center justify-center pt-2">
-        <span className={`text-9xl ${rating === 10 ? "" : ""}`}>{EMOJIS[rating - 1]}</span>
+      <div className="flex flex-col items-center drop-shadow-2xl">
+        <div
+          className="text-9xl leading-none mb-3 drop-shadow-xl rounded-full"
+          style={{
+
+          }}
+        >
+          {EMOJIS[rating - 1]}
+        </div>
+
+        {/* Rating number */}
+        <div className="flex items-baseline justify-center gap-1 mb-6 w-full">
+          <span className="text-4xl font-bold text-brand-primary">
+            {rating}
+          </span>
+          <span className=" text-gray-400">
+            / 10
+          </span>
+        </div>
       </div>
 
       {/* Slider */}
       <div
         ref={trackRef}
-        className="relative h-3 rounded-full bg-blue-950/40 cursor-pointer touch-none"
+        className="relative h-3 rounded-full bg-brand-secondary/50 cursor-pointer touch-none"
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}>
+        onPointerCancel={handlePointerUp}
+      >
         {/* Filled track */}
         <div
-          className="absolute top-0 left-0 h-3 rounded-full bg-green-700"
+          className="absolute left-0 top-0 h-full rounded-full bg-brand-primary"
           style={{
-            width: `${thumbPercent}%`,
-            transition: dragging ? "none" : "width 150ms ease-out",
+            width: `${percentage}%`,
+            transition: dragging ? "none" : "width 120ms ease-out",
           }}
         />
 
@@ -99,35 +148,40 @@ export default function EmojiSlider({ value, onChange }: EmojiSliderProps) {
           aria-valuemin={MIN}
           aria-valuemax={MAX}
           aria-valuenow={rating}
-          aria-label="Rating"
+          aria-label="Day rating"
           onKeyDown={handleKeyDown}
           className="
             absolute top-1/2
+            w-8 h-8
             flex items-center justify-center
-            w-9 h-9
             rounded-full
-            bg-blue-950
-            border-2 border-blue-300
-            shadow-lg
+            bg-white
+            border-[3px] border-brand-primary
+            shadow-md
             cursor-grab
             active:cursor-grabbing
             focus:outline-none
-            focus:ring-2
-            focus:ring-blue-300
+            focus:ring-4
+            focus:ring-brand-primary/20
           "
           style={{
-            left: `${thumbPercent}%`,
+            left: `${percentage}%`,
             transform: "translate(-50%, -50%)",
-            transition: dragging ? "none" : "left 150ms ease-out",
-          }}>
-          <span className="text-white font-semibold">{rating}</span>
+            transition: dragging ? "none" : "left 120ms ease-out",
+          }}
+        >
+          <div className="w-2 h-2 rounded-full bg-brand-primary" />
         </div>
       </div>
 
-      {/* Min / Max labels */}
-      <div className="flex justify-between mt-2 text-xs text-blue-900">
-        <span>1</span>
-        <span>10</span>
+      {/* Labels */}
+      <div className="flex justify-between mt-3 px-1">
+        <span className="text-xs font-semibold text-gray-600">
+          Terrible
+        </span>
+        <span className="text-xs font-semibold text-gray-600">
+          Amazing
+        </span>
       </div>
     </div>
   );

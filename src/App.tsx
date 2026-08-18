@@ -9,7 +9,7 @@ const App = () => {
   return (
     <main>
       <div className="text-center mt-24">
-        <h1>Title Heading</h1>
+        <h1 className="text-3xl font-bold text-brand-primary">Title Heading</h1>
         <p>Rating Prompt</p>
       </div>
 
