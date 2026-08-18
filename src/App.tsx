@@ -1,24 +1,16 @@
-import './App.css'
-// import { useState } from 'react'
-import EmojiSlider from './components/EmojiSlider'
-import GreetingBar from './components/GreetingBar'
-import CustomButton from './components/CustomButton'
+import { Routes, Route } from "react-router";
+import HomePage from "./pages/HomePage";
+import RatingPage from "./pages/RatingPage";
 
-const App = () => {
-
-  //const [rating, setRating] = useState(0)
-
+export default function App() {
   return (
-    <main className="overscroll-none">
-      <div className="pt-16">
-        <GreetingBar/>
-        <EmojiSlider/>
-      </div>
-      <div className="flex flex-row items-center justify-center mt-12">
-        <CustomButton customClasses="bg-brand-primary w-full mx-8 h-12" label="Submit" onClick={() => {}}/>
-      </div>
-    </main>
-  )
+    <div>
+      <main className="px-4">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/log" element={<RatingPage />} />
+        </Routes>
+      </main>
+    </div>
+  );
 }
-
-export default App
