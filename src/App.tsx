@@ -9,7 +9,7 @@ const App = () => {
   //const [rating, setRating] = useState(0)
 
   return (
-    <main>
+    <main className="overscroll-none">
       <div className="pt-16">
         <GreetingBar/>
         <EmojiSlider/>
