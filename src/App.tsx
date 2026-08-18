@@ -1,6 +1,7 @@
 import './App.css'
 import { useState } from 'react'
 import EmojiSlider from './components/EmojiSlider'
+import GreetingBar from './components/GreetingBar'
 
 const App = () => {
 
@@ -8,20 +9,8 @@ const App = () => {
 
   return (
     <main>
-      <div className="text-center mt-24">
-        <h1 className="text-3xl font-bold text-brand-primary">Title Heading</h1>
-        <p>Rating Prompt</p>
-      </div>
-
+      <GreetingBar/>
       <EmojiSlider/>
-
-      <p className="py-8">Selected: {rating}</p>
-
-      <textarea
-        placeholder="What happened today?"
-      />
-
-      <button>Save Day</button>
     </main>
   )
 }

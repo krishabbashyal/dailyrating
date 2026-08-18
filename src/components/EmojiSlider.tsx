@@ -13,7 +13,7 @@ export default function EmojiSlider({
   value,
   onChange,
 }: EmojiSliderProps) {
-  const [rawValue, setRawValue] = useState(value ?? 5);
+  const [rawValue, setRawValue] = useState(value ?? 5.49);
   const [dragging, setDragging] = useState(false);
 
   const trackRef = useRef<HTMLDivElement>(null);
@@ -94,17 +94,10 @@ export default function EmojiSlider({
 
   return (
     <div className="w-full max-w-md px-6 select-none">
-      {/* Header */}
-      <div className="text-center mb-6">
-        <p className="text-sm font-medium text-gray-500">
-          How was your day?
-        </p>
-      </div>
-
       {/* Emoji */}
       <div className="flex flex-col items-center drop-shadow-2xl">
         <div
-          className="text-9xl leading-none mb-3 drop-shadow-xl rounded-full"
+          className="text-[9rem] leading-none mb-3 drop-shadow-xl rounded-full"
           style={{
 
           }}
