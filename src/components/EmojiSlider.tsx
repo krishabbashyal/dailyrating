@@ -9,10 +9,7 @@ interface EmojiSliderProps {
   onChange?: (rating: number) => void;
 }
 
-export default function EmojiSlider({
-  value,
-  onChange,
-}: EmojiSliderProps) {
+export default function EmojiSlider({ value, onChange }: EmojiSliderProps) {
   const [rawValue, setRawValue] = useState(value ?? 5.49);
   const [dragging, setDragging] = useState(false);
 
@@ -39,10 +36,7 @@ export default function EmojiSlider({
     if (!track) return;
 
     const rect = track.getBoundingClientRect();
-    const ratio = Math.max(
-      0,
-      Math.min(1, (clientX - rect.left) / rect.width)
-    );
+    const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
 
     setRawValue(MIN + ratio * (MAX - MIN));
   }, []);
@@ -89,30 +83,20 @@ export default function EmojiSlider({
     }
   };
 
-  const percentage =
-    ((Math.max(MIN, Math.min(MAX, rawValue)) - MIN) / (MAX - MIN)) * 100;
+  const percentage = ((Math.max(MIN, Math.min(MAX, rawValue)) - MIN) / (MAX - MIN)) * 100;
 
   return (
     <div className="w-full max-w-md px-6 select-none">
       {/* Emoji */}
       <div className="flex flex-col items-center drop-shadow-2xl">
-        <div
-          className="text-[9rem] leading-none mb-3 drop-shadow-xl rounded-full"
-          style={{
-
-          }}
-        >
+        <div className="text-[9rem] leading-none mb-3 drop-shadow-xl rounded-full" style={{}}>
           {EMOJIS[rating - 1]}
         </div>
 
         {/* Rating number */}
-        <div className="flex items-baseline justify-center gap-1 mb-6 w-full">
-          <span className="text-4xl font-bold text-brand-primary">
-            {rating}
-          </span>
-          <span className=" text-gray-400">
-            / 10
-          </span>
+        <div className="flex cursor-default items-baseline justify-center gap-1 mb-6 w-full">
+          <span className="text-4xl font-bold text-brand-primary">{rating}</span>
+          <span className=" text-gray-400">/ 10</span>
         </div>
       </div>
 
@@ -123,8 +107,7 @@ export default function EmojiSlider({
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
-      >
+        onPointerCancel={handlePointerUp}>
         {/* Filled track */}
         <div
           className="absolute left-0 top-0 h-full rounded-full bg-brand-primary"
@@ -143,38 +126,31 @@ export default function EmojiSlider({
           aria-valuenow={rating}
           aria-label="Day rating"
           onKeyDown={handleKeyDown}
-          className="
+          className={`
             absolute top-1/2
             w-8 h-8
             flex items-center justify-center
             rounded-full
             bg-white
-            border-[3px] border-brand-primary
             shadow-md
             cursor-grab
             active:cursor-grabbing
-            focus:outline-none
-            focus:ring-4
-            focus:ring-brand-primary/20
-          "
+            ${dragging ? "ring-[3px] ring-brand-primary" : "border-2 border-white"}
+            
+            `}
           style={{
             left: `${percentage}%`,
             transform: "translate(-50%, -50%)",
             transition: dragging ? "none" : "left 120ms ease-out",
-          }}
-        >
+          }}>
           <div className="w-2 h-2 rounded-full bg-brand-primary" />
         </div>
       </div>
 
       {/* Labels */}
       <div className="flex justify-between mt-3 px-1">
-        <span className="text-xs font-semibold text-gray-600">
-          Terrible
-        </span>
-        <span className="text-xs font-semibold text-gray-600">
-          Amazing
-        </span>
+        <span className="text-xs font-semibold text-gray-600">Terrible</span>
+        <span className="text-xs font-semibold text-gray-600">Amazing</span>
       </div>
     </div>
   );
