@@ -30,6 +30,11 @@ jobs:
       - name: Build
         run: npm run build
 
+      # GitHub Pages has no configurable SPA fallback. Serving the app shell as
+      # the custom 404 page lets React Router handle direct requests like /log.
+      - name: Add SPA fallback
+        run: cp dist/index.html dist/404.html
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
