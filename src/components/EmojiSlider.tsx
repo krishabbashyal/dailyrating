@@ -10,7 +10,7 @@ interface EmojiSliderProps {
 }
 
 export default function EmojiSlider({ value, onChange }: EmojiSliderProps) {
-  const [rawValue, setRawValue] = useState(value ?? 5.49);
+  const [rawValue, setRawValue] = useState(value ?? 6.49);
   const [dragging, setDragging] = useState(false);
 
   const trackRef = useRef<HTMLDivElement>(null);
