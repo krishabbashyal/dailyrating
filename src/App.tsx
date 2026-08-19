@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Routes, Route } from "react-router";
 import HomePage from "./pages/HomePage";
 import RatingPage from "./pages/RatingPage";
+import HistoryPage from "./pages/HistoryPage";
 import AccessSetup from "./components/AccessSetup";
 import { getStoredApiToken } from "./api/ratings";
 
@@ -15,6 +16,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<HomePage apiToken={apiToken} onTokenInvalid={() => setApiToken(null)} />} />
             <Route path="/log" element={<RatingPage apiToken={apiToken} />} />
+            <Route path="/history" element={<HistoryPage apiToken={apiToken} />} />
           </Routes>
         ) : (
           <AccessSetup onConnected={setApiToken} />

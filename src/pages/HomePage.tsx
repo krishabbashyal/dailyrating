@@ -32,7 +32,13 @@ const HomePage = ({ apiToken, onTokenInvalid }: HomePageProps) => {
   return (
     <main className="h-full overflow-hidden pb-24">
       <div className="pt-3">
-        <GreetingBar />
+        <div className="flex items-start justify-between gap-3">
+          <GreetingBar />
+          <Link to="/history" className="flex h-11 shrink-0 items-center gap-2 rounded-2xl bg-white/75 px-3 text-sm font-bold text-brand-primary shadow-sm" aria-label="View rating history">
+            <span aria-hidden="true">▦</span>
+            History
+          </Link>
+        </div>
         {error ? (
           <section className="mt-5 rounded-[2rem] border border-rose-100 bg-white/80 p-5 shadow-xl shadow-slate-900/5">
             <p className="font-bold text-rose-800">Couldn’t load your ratings</p>
@@ -51,7 +57,7 @@ const HomePage = ({ apiToken, onTokenInvalid }: HomePageProps) => {
 
       <div className="fixed inset-x-0 bottom-0 z-10 border-t border-white/60 bg-[#f3eee8]/85 px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-xl">
         <Link className="mx-auto block max-w-md" to="/log">
-          <CustomButton customClasses="bg-brand-primary w-full h-14 rounded-2xl shadow-lg shadow-brand-primary/20 hover:opacity-95 active:scale-[0.99] transition-transform" label="Log today’s rating" />
+          <CustomButton customClasses="bg-brand-primary w-full h-14 rounded-2xl shadow-lg shadow-brand-primary/20 hover:opacity-95 active:scale-[0.99] transition-transform" label="Log a rating" />
         </Link>
       </div>
     </main>

@@ -1,6 +1,6 @@
 import type { RatingLog } from "../data/ratings";
 
-const API_URL = "https://dailyratingforbuzz.alwaysdata.net";
+const API_URL = import.meta.env.VITE_API_URL || "https://dailyratingforbuzz.alwaysdata.net";
 const TOKEN_STORAGE_KEY = "daily-rating-api-token";
 
 interface RatingsResponse {
