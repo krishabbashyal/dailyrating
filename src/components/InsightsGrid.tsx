@@ -40,6 +40,7 @@ export default function InsightsGrid({ logs }: InsightsGridProps) {
   const previousAverage = average(previousMonth);
   const difference = Number(currentAverage.toFixed(1)) - Number(previousAverage.toFixed(1));
   const streak = getStreak(logs);
+  const hasComparison = currentMonth.length > 0 && previousMonth.length > 0;
 
   return (
     <section aria-labelledby="insights-heading" className="mt-4">
@@ -62,9 +63,9 @@ export default function InsightsGrid({ logs }: InsightsGridProps) {
         </article>
 
         <article className="rounded-[1.6rem] border border-white/70 bg-white/75 p-3 shadow-lg shadow-slate-900/5 backdrop-blur">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-100 text-lg">{getRatingEmoji(currentAverage || 5)}</span>
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-100 text-lg">{currentMonth.length ? getRatingEmoji(currentAverage) : "—"}</span>
           <div className="mt-3 flex items-end gap-1">
-            <p className="text-2xl font-black text-slate-900">{currentAverage.toFixed(1)}</p>
+            <p className="text-2xl font-black text-slate-900">{currentMonth.length ? currentAverage.toFixed(1) : "—"}</p>
             <span className="mb-1 text-xs font-bold text-slate-400">/10</span>
           </div>
           <p className="text-sm font-semibold text-slate-500">{currentMonth.length} check-ins this month</p>
@@ -73,11 +74,11 @@ export default function InsightsGrid({ logs }: InsightsGridProps) {
         <article className="col-span-2 flex items-center justify-between rounded-[1.6rem] border border-white/70 bg-white/75 p-3 shadow-lg shadow-slate-900/5 backdrop-blur">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Month over month</p>
-            <p className="mt-1 text-lg font-extrabold text-slate-900">{difference >= 0 ? "+" : ""}{difference.toFixed(1)} points</p>
-            <p className="mt-0.5 text-xs font-medium text-slate-500">Compared with last month’s {previousAverage.toFixed(1)}</p>
+            <p className="mt-1 text-lg font-extrabold text-slate-900">{hasComparison ? `${difference >= 0 ? "+" : ""}${difference.toFixed(1)} points` : "Not enough data"}</p>
+            <p className="mt-0.5 text-xs font-medium text-slate-500">{hasComparison ? `Compared with last month’s ${previousAverage.toFixed(1)}` : "Keep checking in to see your trend"}</p>
           </div>
           <div className={`flex h-12 w-12 items-center justify-center rounded-2xl text-xl ${difference >= 0 ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700"}`}>
-            {difference >= 0 ? "↗" : "↘"}
+            {hasComparison ? (difference >= 0 ? "↗" : "↘") : "·"}
           </div>
         </article>
       </div>

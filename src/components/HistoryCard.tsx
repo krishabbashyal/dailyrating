@@ -7,7 +7,9 @@ interface HistoryCardProps {
 
 export default function HistoryCard({ logs }: HistoryCardProps) {
   const recentLogs = [...logs].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 7).reverse();
-  const average = recentLogs.reduce((total, log) => total + log.score, 0) / recentLogs.length;
+  const average = recentLogs.length
+    ? recentLogs.reduce((total, log) => total + log.score, 0) / recentLogs.length
+    : null;
 
   return (
     <section className="mt-3 overflow-hidden rounded-[2rem] border border-white/70 bg-white/80 p-4 shadow-xl shadow-slate-900/5 backdrop-blur">
@@ -17,12 +19,12 @@ export default function HistoryCard({ logs }: HistoryCardProps) {
           <h2 className="mt-1 text-xl font-extrabold text-slate-900">Recent rhythm</h2>
         </div>
         <div className="rounded-2xl bg-brand-secondary/20 px-3 py-2 text-right">
-          <p className="text-lg font-black leading-none text-brand-primary">{average.toFixed(1)}</p>
+          <p className="text-lg font-black leading-none text-brand-primary">{average?.toFixed(1) ?? "—"}</p>
           <p className="mt-1 text-[9px] font-bold uppercase tracking-wide text-brand-primary/60">Average</p>
         </div>
       </div>
 
-      <div className="mt-4 flex items-end justify-between gap-2" aria-label="Recent rating trend">
+      {recentLogs.length ? <div className="mt-4 flex items-end justify-between gap-2" aria-label="Recent rating trend">
         {recentLogs.map((log) => {
           const date = parseLocalDate(log.date);
           const isToday = new Date().toDateString() === date.toDateString();
@@ -45,7 +47,7 @@ export default function HistoryCard({ logs }: HistoryCardProps) {
             </div>
           );
         })}
-      </div>
+      </div> : <div className="flex h-24 items-center justify-center text-sm font-semibold text-slate-400">Your first check-in will appear here.</div>}
     </section>
   );
 }
