@@ -10,7 +10,7 @@ export default function HistoryCard({ logs }: HistoryCardProps) {
   const average = recentLogs.reduce((total, log) => total + log.score, 0) / recentLogs.length;
 
   return (
-    <section className="mt-6 overflow-hidden rounded-[2rem] border border-white/70 bg-white/80 p-5 shadow-xl shadow-slate-900/5 backdrop-blur">
+    <section className="mt-3 overflow-hidden rounded-[2rem] border border-white/70 bg-white/80 p-4 shadow-xl shadow-slate-900/5 backdrop-blur">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand-primary/70">Last 7 check-ins</p>
@@ -22,14 +22,14 @@ export default function HistoryCard({ logs }: HistoryCardProps) {
         </div>
       </div>
 
-      <div className="mt-6 flex items-end justify-between gap-2" aria-label="Recent rating trend">
+      <div className="mt-4 flex items-end justify-between gap-2" aria-label="Recent rating trend">
         {recentLogs.map((log) => {
           const date = parseLocalDate(log.date);
           const isToday = new Date().toDateString() === date.toDateString();
 
           return (
             <div key={log.date} className="flex min-w-0 flex-1 flex-col items-center">
-              <div className="flex h-28 w-full items-end justify-center rounded-full bg-slate-100/80 p-1">
+              <div className="flex h-20 w-full items-end justify-center rounded-full bg-slate-100/80 p-1">
                 <div
                   className={`flex w-full items-start justify-center rounded-full pt-2 transition-all ${isToday ? "bg-brand-primary" : "bg-brand-secondary/55"}`}
                   style={{ height: `${Math.max(32, log.score * 10)}%` }}

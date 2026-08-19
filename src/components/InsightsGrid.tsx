@@ -42,7 +42,7 @@ export default function InsightsGrid({ logs }: InsightsGridProps) {
   const streak = getStreak(logs);
 
   return (
-    <section aria-labelledby="insights-heading" className="mt-7">
+    <section aria-labelledby="insights-heading" className="mt-4">
       <div className="mb-3 flex items-end justify-between">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand-primary/70">At a glance</p>
@@ -52,25 +52,25 @@ export default function InsightsGrid({ logs }: InsightsGridProps) {
       </div>
 
       <div className="grid grid-cols-2 gap-3">
-        <article className="rounded-[1.6rem] bg-brand-primary p-4 text-white shadow-lg shadow-brand-primary/15">
+        <article className="rounded-[1.6rem] bg-brand-primary p-3 text-white shadow-lg shadow-brand-primary/15">
           <div className="flex items-start justify-between">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/15 text-lg">🔥</span>
             <span className="rounded-full bg-white/15 px-2 py-1 text-[10px] font-bold uppercase tracking-wide">Active</span>
           </div>
-          <p className="mt-5 text-3xl font-black">{streak}</p>
+          <p className="mt-3 text-2xl font-black">{streak}</p>
           <p className="text-sm font-semibold text-white/75">day streak</p>
         </article>
 
-        <article className="rounded-[1.6rem] border border-white/70 bg-white/75 p-4 shadow-lg shadow-slate-900/5 backdrop-blur">
+        <article className="rounded-[1.6rem] border border-white/70 bg-white/75 p-3 shadow-lg shadow-slate-900/5 backdrop-blur">
           <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-100 text-lg">{getRatingEmoji(currentAverage || 5)}</span>
-          <div className="mt-5 flex items-end gap-1">
-            <p className="text-3xl font-black text-slate-900">{currentAverage.toFixed(1)}</p>
+          <div className="mt-3 flex items-end gap-1">
+            <p className="text-2xl font-black text-slate-900">{currentAverage.toFixed(1)}</p>
             <span className="mb-1 text-xs font-bold text-slate-400">/10</span>
           </div>
           <p className="text-sm font-semibold text-slate-500">{currentMonth.length} check-ins this month</p>
         </article>
 
-        <article className="col-span-2 flex items-center justify-between rounded-[1.6rem] border border-white/70 bg-white/75 p-4 shadow-lg shadow-slate-900/5 backdrop-blur">
+        <article className="col-span-2 flex items-center justify-between rounded-[1.6rem] border border-white/70 bg-white/75 p-3 shadow-lg shadow-slate-900/5 backdrop-blur">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Month over month</p>
             <p className="mt-1 text-lg font-extrabold text-slate-900">{difference >= 0 ? "+" : ""}{difference.toFixed(1)} points</p>

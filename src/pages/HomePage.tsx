@@ -7,8 +7,8 @@ import { Link } from "react-router";
 
 const HomePage = () => {
   return (
-    <main className="min-h-screen overscroll-none pb-32">
-      <div className="pt-10">
+    <main className="h-full overflow-hidden pb-24">
+      <div className="pt-3">
         <GreetingBar />
         <HistoryCard logs={demoRatingLogs} />
         <InsightsGrid logs={demoRatingLogs} />
