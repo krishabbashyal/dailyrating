@@ -5,7 +5,7 @@ import RatingPage from "./pages/RatingPage";
 export default function App() {
   return (
     <div>
-      <main className="px-4">
+      <main className="mx-auto max-w-lg px-5">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/log" element={<RatingPage />} />

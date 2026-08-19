@@ -1,21 +1,24 @@
-// import { useState } from 'react'
 import EmojiSlider from "../components/EmojiSlider";
 import CustomButton from "../components/CustomButton";
 import { Link } from "react-router";
 const RatingPage = () => {
-  //const [rating, setRating] = useState(0)
-
   return (
-    <main className="overscroll-none">
-      <div className="pt-36">
+    <main className="min-h-screen overscroll-none pb-28 pt-8">
+      <Link to="/" className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/75 text-xl text-slate-700 shadow-sm" aria-label="Back to dashboard">
+        ←
+      </Link>
+      <div className="mt-10">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-primary/60">Today’s check-in</p>
+        <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-900">How was your day?</h1>
+        <p className="mt-2 font-medium text-slate-500">Move the slider to the feeling that fits best.</p>
+      </div>
+      <div className="mt-8">
         <EmojiSlider />
       </div>
-      <div className="flex  items-center justify-center mt-8">
-        <div className="flex flex-col w-full">
-          {/* <p className="text-xs font-semibold text-gray-600 mb-2">Share Details:</p>
-          <textarea className="w-full text-sm text-gray-600 h-36 rounded-3xl bg-white/30 p-4 shadow-sm border-2 border-brand-primary" name="" id=""></textarea> */}
+      <div className="fixed inset-x-0 bottom-0 border-t border-white/60 bg-[#f3eee8]/85 px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-xl">
+        <div className="mx-auto max-w-md">
           <Link to="/">
-            <CustomButton customClasses="bg-brand-primary w-full mt-6 h-12" label="Submit" onClick={() => {}} />
+            <CustomButton customClasses="h-14 w-full rounded-2xl bg-brand-primary shadow-lg shadow-brand-primary/20" label="Save today’s rating" onClick={() => {}} />
           </Link>
         </div>
       </div>

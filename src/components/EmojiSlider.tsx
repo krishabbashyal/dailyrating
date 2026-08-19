@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { RATING_EMOJIS } from "../data/ratings";
 
-const EMOJIS = ["😞", "😔", "🙁", "😕", "😐", "🙂", "😊", "😄", "😁", "😆"];
 const MIN = 1;
 const MAX = 10;
 
@@ -86,24 +86,24 @@ export default function EmojiSlider({ value, onChange }: EmojiSliderProps) {
   const percentage = ((Math.max(MIN, Math.min(MAX, rawValue)) - MIN) / (MAX - MIN)) * 100;
 
   return (
-    <div className="w-full max-w-md select-none mt-6 bg-white/50 rounded-2xl p-5 shadow-2xl border border-gray-200">
+    <div className="w-full select-none rounded-[2rem] border border-white/70 bg-white/80 p-6 shadow-xl shadow-slate-900/5 backdrop-blur">
       {/* Emoji */}
-      <div className="flex flex-col items-center drop-shadow-2xl">
-        <div className="text-[9rem] leading-none mb-3 drop-shadow-xl rounded-full" style={{}}>
-          {EMOJIS[rating - 1]}
+      <div className="flex flex-col items-center">
+        <div className="mb-4 text-[8rem] leading-none drop-shadow-lg">
+          {RATING_EMOJIS[rating - 1]}
         </div>
 
         {/* Rating number */}
-        <div className="flex cursor-default items-baseline justify-center gap-1 mb-6 w-full">
-          <span className="text-4xl font-bold text-brand-primary">{rating}</span>
-          <span className=" text-gray-400">/ 10</span>
+        <div className="mb-8 flex w-full cursor-default items-baseline justify-center gap-1">
+          <span className="text-4xl font-black text-slate-900">{rating}</span>
+          <span className="font-semibold text-slate-400">/ 10</span>
         </div>
       </div>
 
       {/* Slider */}
       <div
         ref={trackRef}
-        className="relative h-3 rounded-full bg-brand-secondary/50 cursor-pointer touch-none"
+        className="relative h-4 cursor-pointer touch-none rounded-full bg-brand-secondary/25"
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
@@ -132,7 +132,7 @@ export default function EmojiSlider({ value, onChange }: EmojiSliderProps) {
             flex items-center justify-center
             rounded-full
             bg-white
-            shadow-md
+            shadow-lg
             cursor-grab
             active:cursor-grabbing
             ${dragging ? "ring-[3px] ring-brand-primary" : "border-2 border-white"}
@@ -149,8 +149,8 @@ export default function EmojiSlider({ value, onChange }: EmojiSliderProps) {
 
       {/* Labels */}
       <div className="flex justify-between mt-3 px-1">
-        <span className="text-xs font-semibold text-gray-600">Terrible</span>
-        <span className="text-xs font-semibold text-gray-600">Amazing</span>
+        <span className="text-xs font-bold text-slate-400">Terrible</span>
+        <span className="text-xs font-bold text-slate-400">Amazing</span>
       </div>
     </div>
   );

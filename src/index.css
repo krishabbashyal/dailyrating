@@ -8,11 +8,17 @@
 }
 
 body {
-  background: #e4d7c9;
+  min-width: 320px;
+  margin: 0;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(173, 191, 165, 0.35), transparent 32rem),
+    #f3eee8;
+  color: #17201b;
+  font-family: var(--sans);
 }
 
 @theme {
-  --color-brand-primary: #6B7A67;
-  --color-brand-secondary: #97A194;
+  --color-brand-primary: #526b58;
+  --color-brand-secondary: #a8baa4;
 
 }
