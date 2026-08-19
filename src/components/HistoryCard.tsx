@@ -1,80 +1,51 @@
-import { useState } from "react";
+import type { RatingLog } from "../data/ratings";
+import { getRatingEmoji, parseLocalDate } from "../data/ratings";
 
-const HistoryCard = () => {
-  const [weeklyLogs] = useState([
-    { day: "Wed", date: "12", emoji: "😊", score: 4 },
-    { day: "Thu", date: "13", emoji: "🤩", score: 5 },
-    { day: "Fri", date: "14", emoji: "😐", score: 3 },
-    { day: "Sat", date: "15", emoji: "😔", score: 2 },
-    { day: "Sun", date: "16", emoji: "😊", score: 4 },
-    { day: "Mon", date: "17", emoji: "🥳", score: 5 },
-    { day: "Tue", date: "18", emoji: null, score: null },
-  ]);
+interface HistoryCardProps {
+  logs: RatingLog[];
+}
 
-  const loggedDays = weeklyLogs.filter((log) => log.score !== null);
-  const average = loggedDays.reduce((sum, log) => sum + (log.score ?? 0), 0) / loggedDays.length;
+export default function HistoryCard({ logs }: HistoryCardProps) {
+  const recentLogs = [...logs].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 7).reverse();
+  const average = recentLogs.reduce((total, log) => total + log.score, 0) / recentLogs.length;
 
   return (
-    <section className="mt-6 bg-white/50 rounded-2xl p-5 shadow-2xl border border-gray-200">
-      <div className="mb-5 flex items-center justify-between">
+    <section className="mt-6 overflow-hidden rounded-[2rem] border border-white/70 bg-white/80 p-5 shadow-xl shadow-slate-900/5 backdrop-blur">
+      <div className="flex items-start justify-between">
         <div>
-          <h2 className="text-base font-bold text-slate-800">Your Week</h2>
-          <p className="mt-0.5 text-xs text-slate-600">Last 7 days</p>
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand-primary/70">Last 7 check-ins</p>
+          <h2 className="mt-1 text-xl font-extrabold text-slate-900">Recent rhythm</h2>
         </div>
-
-        <div className="text-right">
-          <div className="text-lg font-bold text-brand-primary">
-            {average.toFixed(1)}
-            <span className="text-xs font-medium text-slate-600"> / 10</span>
-          </div>
-          <p className="text-[10px] font-medium uppercase tracking-wide text-slate-600">Average</p>
+        <div className="rounded-2xl bg-brand-secondary/20 px-3 py-2 text-right">
+          <p className="text-lg font-black leading-none text-brand-primary">{average.toFixed(1)}</p>
+          <p className="mt-1 text-[9px] font-bold uppercase tracking-wide text-brand-primary/60">Average</p>
         </div>
       </div>
 
-      {/* Days */}
-      <div className="grid grid-cols-7 gap-1.5">
-        {weeklyLogs.map((log) => {
-          const isToday = log.date === "18";
-          const isLogged = log.score !== null;
+      <div className="mt-6 flex items-end justify-between gap-2" aria-label="Recent rating trend">
+        {recentLogs.map((log) => {
+          const date = parseLocalDate(log.date);
+          const isToday = new Date().toDateString() === date.toDateString();
 
           return (
-            <div
-              key={log.day}
-              className={`relative flex  flex-col items-center rounded-2xl px-1.5 py-2.5 transition-all ${
-                isToday ? "bg-brand-primary text-white shadow-md shadow-brand-primary/20" : "bg-slate-50"
-              }`}>
-              {/* Day */}
-              <span className={`text-[10px] font-bold uppercase tracking-wide ${isToday ? "text-white/80" : "text-slate-600"}`}>{log.day}</span>
-
-              {/* Date */}
-              <span className={`text-[10px] ${isToday ? "text-white" : "text-slate-500"}`}>{log.date}</span>
-
-              {/* Emoji */}
-              <div className="my-2 flex h-9 items-center justify-center">
-                {isLogged ? (
-                  <span className="select-none text-2xl">{log.emoji}</span>
-                ) : (
-                  <div
-                    className={`flex h-7 w-7 items-center justify-center rounded-full border-2 border-dashed ${
-                      isToday ? "border-white text-white" : "border-slate-200 text-slate-300"
-                    }`}>
-                    <span className="text-xs font-bold">?</span>
-                  </div>
-                )}
+            <div key={log.date} className="flex min-w-0 flex-1 flex-col items-center">
+              <div className="flex h-28 w-full items-end justify-center rounded-full bg-slate-100/80 p-1">
+                <div
+                  className={`flex w-full items-start justify-center rounded-full pt-2 transition-all ${isToday ? "bg-brand-primary" : "bg-brand-secondary/55"}`}
+                  style={{ height: `${Math.max(32, log.score * 10)}%` }}
+                  title={`${date.toLocaleDateString(undefined, { weekday: "long" })}: ${log.score} out of 10`}
+                >
+                  <span className="text-base leading-none">{getRatingEmoji(log.score)}</span>
+                </div>
               </div>
-
-              {/* Score */}
-              {isLogged ? (
-                <span className={`text-xs font-bold ${isToday ? "text-white" : "text-slate-600"}`}>{log.score}/10</span>
-              ) : (
-                <span className={`text-[10px] font-medium ${isToday ? "text-white" : "text-slate-200"}`}>N/A</span>
-              )}
+              <span className={`mt-2 text-[10px] font-bold uppercase ${isToday ? "text-brand-primary" : "text-slate-400"}`}>
+                {date.toLocaleDateString(undefined, { weekday: "narrow" })}
+              </span>
+              <span className="mt-0.5 text-[10px] font-semibold text-slate-600">{log.score}</span>
             </div>
           );
         })}
       </div>
     </section>
   );
-};
-
-export default HistoryCard;
+}
