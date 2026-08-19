@@ -7,14 +7,27 @@
   --mono: ui-monospace, Consolas, monospace;
 }
 
+html,
+body,
+#root {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 body {
+  position: fixed;
+  inset: 0;
   min-width: 320px;
+  width: 100%;
   margin: 0;
   background:
-    radial-gradient(circle at 15% 0%, rgba(173, 191, 165, 0.35), transparent 32rem),
+    radial-gradient(circle at 15% -5rem, rgba(173, 191, 165, 0.42), transparent 34rem),
     #f3eee8;
+  background-attachment: fixed;
   color: #17201b;
   font-family: var(--sans);
+  touch-action: manipulation;
 }
 
 @theme {
