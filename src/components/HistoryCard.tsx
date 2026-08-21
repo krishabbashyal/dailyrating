@@ -35,7 +35,7 @@ export default function HistoryCard({ logs }: HistoryCardProps) {
                 <span>{log.score}</span>
                 <span className={`font-medium ${isToday ? 'text-white/80' : 'text-brand-primary/60'} text-[9px]`}>/10</span>
               </div>
-              <div className="relative mt-2 flex h-20 w-full items-end justify-center rounded-xl border border-brand-secondary/25 p" aria-hidden="true">
+              <div className="relative mt-2 flex h-20 w-full items-end justify-center rounded-xl border border-brand-secondary/25" aria-hidden="true">
                 <div
                   className={`relative flex w-full items-center justify-center rounded-xl transition-all ${isToday ? "bg-brand-primary shadow-sm shadow-brand-primary/25" : "bg-brand-secondary/65"}`}
                   style={{ height: `${Math.max(28, log.score * 10)}%` }}
