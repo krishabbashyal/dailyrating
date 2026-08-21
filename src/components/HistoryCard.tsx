@@ -12,7 +12,7 @@ export default function HistoryCard({ logs }: HistoryCardProps) {
     : null;
 
   return (
-    <section className="mt-3 overflow-hidden rounded-[2rem] border border-white/70 bg-white/80 p-4 shadow-xl shadow-slate-900/5 backdrop-blur">
+    <section className="mt-3 overflow-hidden rounded-3xl border border-white/70 bg-white/80 p-4 shadow-xl shadow-slate-900/5 backdrop-blur">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand-primary/70">Last 7 check-ins</p>
@@ -24,26 +24,30 @@ export default function HistoryCard({ logs }: HistoryCardProps) {
         </div>
       </div>
 
-      {recentLogs.length ? <div className="mt-4 flex items-end justify-between gap-2" aria-label="Recent rating trend">
+      {recentLogs.length ? <div className="mt-3 grid grid-cols-7 gap-1.5" aria-label="Recent rating trend">
         {recentLogs.map((log) => {
           const date = parseLocalDate(log.date);
           const isToday = new Date().toDateString() === date.toDateString();
 
           return (
-            <div key={log.date} className="flex min-w-0 flex-1 flex-col items-center">
-              <div className="flex h-20 w-full items-end justify-center rounded-full bg-slate-100/80 p-1">
+            <div key={log.date} className="flex min-w-0 flex-col items-center">
+              <div className={`flex flex-row h-6 w-full items-center justify-center rounded-full text-[11px] font-black tabular-nums ${isToday ? "bg-brand-primary text-white" : "bg-brand-secondary/25 text-brand-primary"}`}>
+                <span>{log.score}</span>
+                <span className={`font-medium ${isToday ? 'text-white/80' : 'text-brand-primary/60'} text-[9px]`}>/10</span>
+              </div>
+              <div className="relative mt-2 flex h-20 w-full items-end justify-center rounded-xl border border-brand-secondary/25" aria-hidden="true">
                 <div
-                  className={`flex w-full items-start justify-center rounded-full pt-2 transition-all ${isToday ? "bg-brand-primary" : "bg-brand-secondary/55"}`}
-                  style={{ height: `${Math.max(32, log.score * 10)}%` }}
+                  className={`relative flex w-full items-center justify-center rounded-xl transition-all ${isToday ? "bg-brand-primary shadow-sm shadow-brand-primary/25" : "bg-brand-secondary/65"}`}
+                  style={{ height: `${Math.max(28, log.score * 10)}%` }}
                   title={`${date.toLocaleDateString(undefined, { weekday: "long" })}: ${log.score} out of 10`}
                 >
-                  <span className="text-base leading-none">{getRatingEmoji(log.score)}</span>
+                  <span className="text-[15px] leading-none">{getRatingEmoji(log.score)}</span>
                 </div>
               </div>
-              <span className={`mt-2 text-[10px] font-bold uppercase ${isToday ? "text-brand-primary" : "text-slate-400"}`}>
-                {date.toLocaleDateString(undefined, { weekday: "narrow" })}
+              <span className={`mt-2 text-[10px] font-extrabold uppercase ${isToday ? "text-brand-primary" : "text-slate-500"}`}>
+                {date.toLocaleDateString(undefined, { weekday: "short" })}
               </span>
-              <span className="mt-0.5 text-[10px] font-semibold text-slate-600">{log.score}</span>
+              <span className="mt-0.5 text-[10px] font-semibold text-slate-400">{date.getDate()}</span>
             </div>
           );
         })}
